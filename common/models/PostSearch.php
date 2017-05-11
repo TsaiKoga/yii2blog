@@ -15,13 +15,19 @@ class PostSearch extends Post
     /**
      * @inheritdoc
      */
+
+    // 添加新属性
+    public function attributes() {
+      return array_merge(parent::attributes(), ['authorName']);
+    }
+
     public function rules()
     {
         return [
             [['id'], 'integer'],
             [['author_id'], 'integer'],
             [['status'], 'integer'],
-            [['title', 'content', 'tags', 'create_time', 'update_time'], 'safe'],
+            [['title', 'content', 'tags', 'create_time', 'update_time', 'authorName'], 'safe'],
         ];
     }
 
@@ -62,7 +68,7 @@ class PostSearch extends Post
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+             $query->where('0=1'); //数据验证不符合，什么都不显示；注释掉则显示全部内容
             return $dataProvider;
         }
 
@@ -79,6 +85,14 @@ class PostSearch extends Post
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'tags', $this->tags]);
+        $query->join('INNER JOIN', 'Adminuser', 'Adminuser.id = post.author_id');
+        $query->andFilterWhere(['like', 'Adminuser.nickname', $this->authorName]);
+
+        // 再次添加排序内容：
+        $dataProvider->sort->attributes['authorName'] = [
+          'asc' => ['Adminuser.nickname' => SORT_ASC],
+          'desc' => ['Adminuser.nickname' => SORT_DESC],
+        ];
 
         return $dataProvider;
     }
