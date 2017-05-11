@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\Poststatus;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PostSearch */
@@ -24,9 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            ['attribute' => 'id', 'contentOptions' => ['width' => '30px']],
             'title',
             'content:ntext',
+            ['attribute' => 'author_id', 'value' => 'author.nickname'],
+            [
+              'attribute' => 'status',
+              'value' => 'status0.name',
+              'filter' => Poststatus::find()->select(['name', 'id'])->orderBy('position')->indexBy('id')->column(),
+            ],
             'tags:ntext',
             'create_time',
             // 'update_time',

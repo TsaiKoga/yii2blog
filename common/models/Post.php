@@ -104,7 +104,7 @@ class Post extends \yii\db\ActiveRecord
     public function afterFind()
     {
       parent::afterFind();
-      $this->$_oldTags = t$his->tags;
+      $this->_oldTags = $this->tags;
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -116,6 +116,6 @@ class Post extends \yii\db\ActiveRecord
     public function afterDelete()
     {
       parent::afterDelete();
-      Tag::updateFrequency($this->$tags, '')
+      Tag::updateFrequency($this->$tags, '');
     }
 }

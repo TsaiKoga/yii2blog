@@ -19,6 +19,8 @@ class PostSearch extends Post
     {
         return [
             [['id'], 'integer'],
+            [['author_id'], 'integer'],
+            [['status'], 'integer'],
             [['title', 'content', 'tags', 'create_time', 'update_time'], 'safe'],
         ];
     }
@@ -47,6 +49,13 @@ class PostSearch extends Post
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 2],
+            'sort' => [
+              'defaultOrder' => [
+                  'id' => SORT_DESC
+              ],
+              'attributes' => ['id', 'title'] # 只能排序的字段
+            ],
         ]);
 
         $this->load($params);
@@ -62,6 +71,9 @@ class PostSearch extends Post
             'id' => $this->id,
             'create_time' => $this->create_time,
             'update_time' => $this->update_time,
+            'tags' => $this->tags,
+            'author_id' => $this->author_id,
+            'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
