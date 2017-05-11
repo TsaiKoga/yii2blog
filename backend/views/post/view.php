@@ -37,6 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['label' => '状态', 'value' => $model->status0->name],
             ['attribute' => 'author_id', 'value' => $model->author->nickname],
         ],
+        'template' => '<tr><th style="width:120px;">{label}</th><td>{value}</td></tr>',
+        'options'  => ['class' => 'table table-striped table-bordered detail-view']
     ]) ?>
 
 </div>
