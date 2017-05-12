@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['attribute' => 'id', 'contentOptions' => ['width' => '30px']],
             'title',
-            'content:ntext',
+            ['attribute' => 'content', 'value' => 'beginning'],
             ['attribute' => 'authorName', 'label' => '作者', 'value' => 'author.nickname'],
             [
               'attribute' => 'status',

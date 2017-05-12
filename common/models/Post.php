@@ -116,6 +116,13 @@ class Post extends \yii\db\ActiveRecord
     public function afterDelete()
     {
       parent::afterDelete();
-      Tag::updateFrequency($this->$tags, '');
+      Tag::updateFrequency($this->tags, '');
+    }
+
+    public function getBeginning()
+    {
+      $tmpStr = strip_tags($this->content);
+      $tmpLen = mb_strlen($tmpStr);
+      return mb_substr($tmpStr, 0, 20, 'utf-8').($tmpStr > 20 ? '...' : '');
     }
 }
