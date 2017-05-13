@@ -89,4 +89,15 @@ class Comment extends \yii\db\ActiveRecord
     {
       return $this->hasOne(Commentstatus::className(), ['id'=>'status']);
     }
+
+    public function approve()
+    {
+      $this->status = 2;
+      return ($this->save() ? true : false);
+    }
+
+    public static function getPendingCommentCount()
+    {
+      return Comment::find()->where(['status' => 1])->count();
+    }
 }
