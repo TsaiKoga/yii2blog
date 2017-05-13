@@ -34,6 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'password',
             'email:email',
             'profile:ntext',
+            'password_hash',
+            'password_reset_token',
+            'auth_key',
         ],
     ]) ?>
 

@@ -19,7 +19,7 @@ class AdminuserSearch extends Adminuser
     {
         return [
             [['id'], 'integer'],
-            [['username', 'nickname', 'password', 'email', 'profile'], 'safe'],
+            [['username', 'nickname', 'password', 'email', 'profile', 'password_hash', 'password_reset_token', 'auth_key'], 'safe'],
         ];
     }
 
@@ -66,7 +66,10 @@ class AdminuserSearch extends Adminuser
             ->andFilterWhere(['like', 'nickname', $this->nickname])
             ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'profile', $this->profile]);
+            ->andFilterWhere(['like', 'profile', $this->profile])
+            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
+            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+            ->andFilterWhere(['like', 'auth_key', $this->auth_key]);
 
         return $dataProvider;
     }
