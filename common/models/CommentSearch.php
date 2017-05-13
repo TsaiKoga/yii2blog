@@ -64,11 +64,11 @@ class CommentSearch extends Comment
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'comment.id' => $this->id,
             'create_time' => $this->create_time,
             'post_id' => $this->post_id,
             'user_id' => $this->user_id,
-            'status' => $this->status,
+            'comment.status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'content', $this->content])
