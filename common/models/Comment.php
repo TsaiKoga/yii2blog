@@ -52,13 +52,13 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'content' => 'Content',
-            'create_time' => 'Create Time',
-            'email' => 'Email',
+            'content' => '内容',
+            'create_time' => '创建时间',
+            'email' => '邮箱',
             'url' => 'Url',
-            'post_id' => 'Post ID',
-            'user_id' => 'User ID',
-            'status' => 'Status',
+            'post_id' => '文章',
+            'user_id' => '作者',
+            'status' => '状态',
         ];
     }
 
@@ -82,6 +82,11 @@ class Comment extends \yii\db\ActiveRecord
     {
       $tmpStr = strip_tags($this->content);
       $tmpLen = mb_strlen($tmpStr);
-      return mb_substr($tmpStr, 0, 20, 'utf-8').(($tmpLen > 20)? '...' : '');
+      return mb_substr($tmpStr, 0, 10, 'utf-8').(($tmpLen > 10)? '...' : '');
+    }
+
+    public function getStatus0()
+    {
+      return $this->hasOne(Commentstatus::className(), ['id'=>'status']);
     }
 }

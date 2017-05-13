@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\Commentstatus;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\CommentSearch */
@@ -23,8 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
+            'post.title',
             [
               'attribute' => 'content',
               'value' => 'beginning' // 因为已经将$searchModel赋值filterModel了，所以直接用字符串引用属性和方法。
@@ -34,12 +35,21 @@ $this->params['breadcrumbs'][] = $this->title;
               //     return mb_substr($tmpStr, 0, 20, 'utf-8').($tmpLen>20 ? "..." : '');
               // }
             ],
+            [
+              'attribute' => 'status',
+              'value' => 'status0.name',
+              'filter' => Commentstatus::find()->select(['name','id'])->indexBy('id')->orderBy('position')->column(),
+            ],
             'create_time',
             'email:email',
             'url:url',
+            [
+              'attribute' => 'user.username',
+              'label' => '作者',
+              'value' => 'user.username'
+            ],
             // 'post_id',
             // 'user_id',
-            // 'status',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

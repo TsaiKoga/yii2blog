@@ -12,6 +12,11 @@ use common\models\Comment;
  */
 class CommentSearch extends Comment
 {
+
+    public function attributes()
+    {
+      return array_merge(parent::attributes(), ['user.username']);
+    }
     /**
      * @inheritdoc
      */
@@ -19,7 +24,7 @@ class CommentSearch extends Comment
     {
         return [
             [['id', 'post_id', 'user_id', 'status'], 'integer'],
-            [['content', 'create_time', 'email', 'url'], 'safe'],
+            [['content', 'create_time', 'email', 'url', 'user.username'], 'safe'],
         ];
     }
 
@@ -70,6 +75,13 @@ class CommentSearch extends Comment
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'url', $this->url]);
 
+        $query->join('INNER JOIN', 'user', 'comment.user_id = user.id');
+        $query->andFilterWhere(['like', 'user.username', $this->getAttribute('user.username')]);
+
+        $dataProvider->sort->attributes['user.username'] = [
+          'asc' => ['user.username' => SORT_ASC],
+          'desc' => ['user.username' => SORT_DESC]
+        ];
         return $dataProvider;
     }
 }
