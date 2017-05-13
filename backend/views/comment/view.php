@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_time',
             'email:email',
             'url:url',
-            'post_id',
-            'user_id',
-            'status',
+            ['attribute'=>'post_id', 'value' => $model->post->title],
+            ['attribute' => 'user_id', 'value' => $model->user->username ],
+            ['attribute' => 'status', 'value' => $model->status0->name],
         ],
     ]) ?>
 
