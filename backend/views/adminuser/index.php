@@ -27,14 +27,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'nickname',
-            'password',
             'email:email',
             // 'profile:ntext',
             // 'password_hash',
             // 'password_reset_token',
             // 'auth_key',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+              'class' => 'yii\grid\ActionColumn',
+              'template' => '{view} {update} {delete} {resetpwd}',
+              'buttons' => [
+                'resetpwd' => function($url) {
+                  $options = [
+                    'title' => Yii::t('yii', '重置密码'),
+                    'aria-label' => Yii::t('yii', '重置密码'),
+                    'data-confirmation' => Yii::t('yii', '确定要重置?'),
+                    'data-method' => 'post',
+                    'data-pjax' => '0'
+                  ];
+                  return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, $options);
+                }
+              ],
+            ],
         ],
     ]); ?>
 </div>
