@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'auth_key',
             [
               'class' => 'yii\grid\ActionColumn',
-              'template' => '{view} {update} {delete} {resetpwd}',
+              'template' => '{view} {update} {delete} {resetpwd} {privileage}',
               'buttons' => [
                 'resetpwd' => function($url) {
                   $options = [
@@ -45,6 +45,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data-pjax' => '0'
                   ];
                   return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, $options);
+                },
+                'privileage' => function($url) {
+                  $options = [
+                    'title' => Yii::t('yii', '权限设置'),
+                    'aria-label' => Yii::t('yii', '权限设置'),
+                    'data-confirmation' => Yii::t('yii', '确定设置权限?'),
+                    'data-method' => 'post',
+                    'data-pjax' => '0'
+                  ];
+                  return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, $options);
+
                 }
               ],
             ],

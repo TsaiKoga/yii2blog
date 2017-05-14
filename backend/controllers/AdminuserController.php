@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\SignupForm;
 use backend\models\ResetpwdForm;
+use common\models\AuthItem;
+use common\models\AuthAssignment;
 
 /**
  * AdminuserController implements the CRUD actions for Adminuser model.
@@ -141,5 +143,45 @@ class AdminuserController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionPrivileage($id)
+    {
+      // step1 显示全部角色 type=1是Role， type=2是权限
+      $allPrivileage = AuthItem::find()->select(['name', 'description'])->where(['type' => 1])->orderBy('description')->all();
+      foreach($allPrivileage as $pri) {
+        $allPrivileageArray[$pri->name] = $pri->description;
+      }
+
+      // step2 当前用户角色
+      $authAssignments = AuthAssignment::find()->select(['item_name'])->where(['user_id' => $id])->all();
+      $authAssignmentArray = array();
+      foreach($authAssignments as $authAssignment) {
+        array_push($authAssignmentArray, $authAssignment->item_name);
+      }
+
+      // step3: 更新权限
+      if (isset($_POST['newPri'])) {
+        AuthAssignment::deleteAll('user_id=:id',['id' => $id]);
+
+        $newPri = $_POST['newPri'];
+        $arrLength = count($newPri);
+        for ($x=0; $x<$arrLength; $x++) {
+          $aPri = new AuthAssignment();
+          $aPri->item_name = $newPri[$x];
+          $aPri->user_id = $id;
+          $aPri->save();
+        }
+        return $this->redirect(['index']);
+      }
+
+      // step4:
+      return $this->render('privileage', [
+        'id' => $id,
+        'AuthAssignmentArray' => $authAssignmentArray,
+        'allPrivileageArray' => $allPrivileageArray,
+      ]);
+
+
     }
 }
