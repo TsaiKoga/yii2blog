@@ -6,6 +6,7 @@ use frontend\components\TagsCloudWidget;
 use frontend\components\RctReplyWidget;
 use yii\helpers\HtmlPurifier;
 use common\models\Comment;
+use yii\helpers\Url;
  ?>
 
  <div class="container">
@@ -13,8 +14,8 @@ use common\models\Comment;
      <div class="col-md-9">
        <ol class="breadcrumb">
          <li><a href="<?= Yii::$app->homeUrl;?>">首页</a></li>
-         <li><a href="<?= Yii::$app->homeUrl;?>?r=post/index">文章列表</a></li>
-         <li><a href="<?= Yii::$app->homeUrl;?>?r=post/detail">文章详细</a></li>
+         <li><a href="<?= Url::to(['post/index']);?>">文章列表</a></li>
+         <li><a href="<?= Yii::$app->urlManager->createUrl(['post/detail', 'id' => $model->id, 'title' => $model->title]) ?>">文章详细</a></li>
        </ol>
 
        <div class="post">

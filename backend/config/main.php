@@ -42,6 +42,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+              // 都是 右边 的改成 左边 的形式
+              '<controller:(post|comment)+>s' => '<controller>/index', //改成复数形式
+              '<controller:\w+>/<id:\d+>' => '<controller>/view',
+              '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>'=>'<controller>/<action>',
             ],
         ],
     ],
