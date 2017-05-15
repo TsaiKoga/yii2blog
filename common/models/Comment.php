@@ -105,7 +105,7 @@ class Comment extends \yii\db\ActiveRecord
     {
       if (parent::beforeSave($insert)) {
         if ($insert) {
-          $this->create_time = time();
+          $this->create_time = Yii::$app->formatter->asDate(time(), 'php:Y-m-d H:i:s');
         }
         return true;
       }

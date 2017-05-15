@@ -75,6 +75,11 @@ class Post extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::className(), ['post_id' => 'id']);
     }
 
+    public function getActiveComments()
+    {
+        return $this->hasMany(Comment::className(), ['post_id' => 'id'])->where(['status' => 2]);
+    }
+
     // 这里'id'=>'name' id是指poststatus的id指向post的status字段
     public function getStatus0()
     {
