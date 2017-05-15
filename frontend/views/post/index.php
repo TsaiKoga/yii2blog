@@ -4,6 +4,7 @@ use yii\widgets\ListView;
 use yii\widgets\ActiveForm;
 use frontend\components\TagsCloudWidget;
 use frontend\components\RctReplyWidget;
+use common\models\Post;
  ?>
 
  <div class="container">
@@ -27,6 +28,17 @@ use frontend\components\RctReplyWidget;
          <ul class="list-group">
            <li class="list-group-item">
              <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查找文章
+             <?php
+             $postCount = Yii::$app->cache->get('postCount');
+             if (!$postCount) {
+               $postCount = Post::find()->count();
+               $dependency = new DbDependency(['sql'=>'select count(id) from post;']);
+
+               Yii::$app->cache->set('postCount', $postCount, 600, $dependency); // 600为缓存过期时间，$dependency为缓存依赖条件（这里用的是DbDependency）
+               sleep(5);
+             }
+             echo $postCount;
+             ?>
            </li>
            <li class="list-group-item">
              <form class="form-inline" action="index.php?r=post/index" method="get">
