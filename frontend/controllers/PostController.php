@@ -43,6 +43,20 @@ class PostController extends Controller
                 'sql' => 'select count(id) from post',
               ],
             ],
+            'httpCache' => [
+              'class' => 'yii\filters\HttpCache',
+              'only' => ['detail'],
+              'lastModified' => function($action, $params) {
+                $q = new \yii\db\Query();
+                $intTime = \Yii::$app->formatter->asDatetime($q->from('post')->max('update_time'), "php:YmdHis");
+                return $intTime;
+              },
+              'etagSeed' => function() {
+                $post = $this->findModel(Yii::$app->request->get('id'));
+                return serialize([$post->title, $post->content]);
+              },
+              'cacheControlHeader' =>  'public, max-age=600',
+            ],
         ];
     }
 
