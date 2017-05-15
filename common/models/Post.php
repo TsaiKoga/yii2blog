@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "post".
@@ -119,10 +120,31 @@ class Post extends \yii\db\ActiveRecord
       Tag::updateFrequency($this->tags, '');
     }
 
-    public function getBeginning()
+    public function getBeginning($length=288)
     {
       $tmpStr = strip_tags($this->content);
       $tmpLen = mb_strlen($tmpStr);
-      return mb_substr($tmpStr, 0, 20, 'utf-8').($tmpStr > 20 ? '...' : '');
+      return mb_substr($tmpStr, 0, $length, 'utf-8').($tmpStr > $length ? '...' : '');
+    }
+
+    public function getUrl()
+    {
+      return Yii::$app->urlManager->createUrl([
+        'post/detail', 'id' => $this->id, 'title' => $this->title,
+      ]);
+    }
+
+    public function getTaglinks()
+    {
+      $links = array();
+      foreach(Tag::string2array($this->tags) as $tag) {
+        $links[] = Html::a(Html::encode($tag), array('post/index', 'PostFrontSearch[tags]'=>$tag));
+      }
+      return $links;
+    }
+
+    public function getCommentCount()
+    {
+      return Comment::find()->where(['post_id' => $this->id, 'status' => 2])->count();
     }
 }
