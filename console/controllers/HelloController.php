@@ -9,24 +9,24 @@ use common\models\Post;
  */
 class HelloController extends Controller
 {
-  public $rev;
-  public function options()
-  {
-      return ['rev'];
-  }
-  public function actionOptionsAliases()
-  {
-    return ['r' => 'rev'];
-  }
+  // public $rev;
+  // public function options()
+  // {
+  //     return ['rev'];
+  // }
+  // public function actionOptionsAliases()
+  // {
+  //   return ['r' => 'rev'];
+  // }
 
 
   public function actionIndex()
   {
-    if ($this->rev == 1) {
-      echo strrev('Hello World!')."\n";
-    } else {
-      echo "Hello World!\n";
-    }
+    // if ($this->rev == 1) {
+    //   echo (strrev('Hello World!')."\n");
+    // } else {
+      echo ("Hello World!\n");
+    // }
   }
 
   public function actionList()

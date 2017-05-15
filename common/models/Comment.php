@@ -17,6 +17,8 @@ use Yii;
  *
  * @property Post $post
  * @property User $user
+ * @property integer $status
+ * @property integer $remind
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -37,9 +39,10 @@ class Comment extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['create_time'], 'safe'],
             [['post_id', 'user_id'], 'required'],
-            [['post_id', 'user_id'], 'integer'],
+            [['post_id', 'user_id', 'status', 'remind'], 'integer'],
             [['email', 'url'], 'string', 'max' => 255],
             [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(), 'targetAttribute' => ['post_id' => 'id']],
+            [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Commentstatus::className(), 'targetAttribute' => ['status' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => Commentstatus::className(), 'targetAttribute' => ['status' => 'id']],
         ];
@@ -59,6 +62,7 @@ class Comment extends \yii\db\ActiveRecord
             'post_id' => '文章',
             'user_id' => '作者',
             'status' => '状态',
+            'remind' => '是否提醒',
         ];
     }
 
