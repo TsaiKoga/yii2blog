@@ -138,7 +138,7 @@ class Post extends \yii\db\ActiveRecord
     {
       $links = array();
       foreach(Tag::string2array($this->tags) as $tag) {
-        $links[] = Html::a(Html::encode($tag), array('post/index', 'PostFrontSearch[tags]'=>$tag));
+        $links[] = Html::a(Html::encode($tag), array('post/index', 'PostSearch[tags]'=>$tag)); // PostSearch代表search类，
       }
       return $links;
     }
