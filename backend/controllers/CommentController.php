@@ -37,11 +37,13 @@ class CommentController extends Controller
     public function actionIndex()
     {
         $searchModel = new CommentSearch();
+        $recentComments = Comment::findRecentComments();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'recentComments' => $recentComments,
         ]);
     }
 

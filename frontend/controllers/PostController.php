@@ -6,6 +6,7 @@ use Yii;
 use common\models\Post;
 use common\models\PostSearch;
 use common\models\Tag;
+use common\models\Comment;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,6 +38,7 @@ class PostController extends Controller
     public function actionIndex()
     {
         $tags = Tag::findTagWeights();
+        $recentComments = Comment::findRecentComments();
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -44,6 +46,7 @@ class PostController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'tags' => $tags,
+            'recentComments' => $recentComments,
         ]);
     }
 
